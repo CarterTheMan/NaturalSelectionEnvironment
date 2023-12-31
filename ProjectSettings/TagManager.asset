@@ -7,6 +7,7 @@ TagManager:
   - Fox
   - Rabbit
   - Bush
+  - Plane
   layers:
   - Default
   - TransparentFX

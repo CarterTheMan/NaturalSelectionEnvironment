@@ -289,10 +289,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e275bd349a5b13945b2527d7857b1881, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameRate: 60
   FOV: 30
   ViewDistance: 5
-  speed: 1
+  Speed: 0
   PreyType: Rabbit
 --- !u!65 &397708772
 BoxCollider:
@@ -374,7 +373,7 @@ Transform:
   m_GameObject: {fileID: 397708770}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: 0.2}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -586,13 +585,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.29791, y: -0, z: -0, w: 0.954594}
-  m_LocalPosition: {x: 0, y: 3.87, z: -4.06}
+  m_LocalRotation: {x: 0.30070576, y: 0, z: 0, w: 0.953717}
+  m_LocalPosition: {x: 0, y: 10, z: -25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 34.664, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 35, y: 0, z: 0}
 --- !u!1 &1396402302
 GameObject:
   m_ObjectHideFlags: 0
@@ -605,9 +604,10 @@ GameObject:
   - component: {fileID: 1396402306}
   - component: {fileID: 1396402305}
   - component: {fileID: 1396402304}
+  - component: {fileID: 1396402308}
   m_Layer: 0
   m_Name: Plane
-  m_TagString: Untagged
+  m_TagString: Plane
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -694,11 +694,30 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 5, y: 1, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1396402308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1396402302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5f3a74260171eb48a898dbb8663bb90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  frameRate: 60
+  startFoxNumber: 20
+  FoxFOV: 40
+  FoxViewDistance: 3
+  FoxSpeed: 1
+  FoxPreyType: Rabbit
+  startRabbitNumber: 20
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

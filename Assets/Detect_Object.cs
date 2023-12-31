@@ -5,22 +5,23 @@ using UnityEngine;
 public class Detect_Object : MonoBehaviour
 {
     // User decide
-    public int frameRate;
     public float FOV;
     public float ViewDistance;
-    public float speed;
+    public float Speed;
     public string PreyType;
     private GameObject huntedPrey;
     private int moveTime;
     private int moveCounter;
     private Vector3 turnRate;
     private bool walk;
+    private int frameRate;
 
     // Start is called before the first frame update
     void Start()
     {
-        Application.targetFrameRate = frameRate;
         GetComponent<Renderer>().material.color = Color.red;
+        
+        frameRate = GameObject.FindGameObjectWithTag("Plane").GetComponent<PlaneScript>().frameRate;
         huntedPrey = null;
         walk = true;
     }
@@ -72,7 +73,7 @@ public class Detect_Object : MonoBehaviour
 
     void move() {
         // How fast to move forward
-        var step = speed * Time.deltaTime;
+        var step = Speed * Time.deltaTime;
 
         // Hunt prey
         if (huntedPrey != null) {
