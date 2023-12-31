@@ -79,7 +79,7 @@ public class Detect_Object : MonoBehaviour
             GetComponent<Renderer>().material.color = Color.green;
 
             // Move towards target
-            // NOTE: Need to retate quickly to look at
+            transform.LookAt(huntedPrey.transform);
             transform.position = Vector3.MoveTowards(transform.position, huntedPrey.transform.position, step);
 
         // Not hunting prey
@@ -109,6 +109,12 @@ public class Detect_Object : MonoBehaviour
             } else {
                 transform.Rotate(turnRate * Time.deltaTime);
             }
+        }
+    }
+
+    void OnCollisionEnter(Collision other) {
+        if (other.gameObject.tag == PreyType) {
+            Destroy(other.gameObject);
         }
     }
 }
