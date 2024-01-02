@@ -5,14 +5,17 @@ using UnityEngine;
 public class PlaneScript : MonoBehaviour
 {
     public int frameRate;
+    public GameObject foxModel;
     public int startFoxNumber;
     public float foxFOV;
     public float foxViewDistance;
     public float foxSpeed;
+    public GameObject rabbitModel;
     public int startRabbitNumber;
     public float rabbitFOV;
     public float rabbitViewDistance;
     public float rabbitSpeed;
+    public GameObject bushModel;
     public int startBushNumber;
     public float bushMaxSize;
     public int timeBetweenBushSpawn;    // Seconds
@@ -27,8 +30,8 @@ public class PlaneScript : MonoBehaviour
         Application.targetFrameRate = frameRate;
 
         // Get the scales and square
-        xScale = Mathf.Pow(transform.localScale.x, 2);
-        zScale = Mathf.Pow(transform.localScale.z, 2);
+        xScale = (GetComponent<MeshRenderer>().bounds.size.x / 2) - 1;
+        zScale = (GetComponent<MeshRenderer>().bounds.size.z / 2) - 1;
 
         // Spawn foxes
         for (int i = 0; i < startFoxNumber; i++) {
@@ -69,8 +72,8 @@ public class PlaneScript : MonoBehaviour
 
         // Add the script with variables
         fox.AddComponent<FoxScript>().FOV = foxFOV;
-        fox.GetComponent<FoxScript>().ViewDistance = foxViewDistance;
-        fox.GetComponent<FoxScript>().Speed = foxSpeed;
+        fox.GetComponent<FoxScript>().viewDistance = foxViewDistance;
+        fox.GetComponent<FoxScript>().speed = foxSpeed;
 
         // Add the rigidbody so that it can collide
         fox.AddComponent<Rigidbody>();
@@ -86,8 +89,8 @@ public class PlaneScript : MonoBehaviour
 
         // Add the script with variables
         rabbit.AddComponent<RabbitScript>().FOV = rabbitFOV;
-        rabbit.GetComponent<RabbitScript>().ViewDistance = rabbitViewDistance;
-        rabbit.GetComponent<RabbitScript>().Speed = rabbitSpeed;
+        rabbit.GetComponent<RabbitScript>().viewDistance = rabbitViewDistance;
+        rabbit.GetComponent<RabbitScript>().speed = rabbitSpeed;
 
         // Start the rabbit at a random position
         rabbit.transform.position = new Vector3(Random.Range(-xScale - 1, xScale - 1), 0.5f, Random.Range(-zScale - 1, zScale - 1));
