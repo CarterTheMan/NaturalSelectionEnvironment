@@ -714,16 +714,16 @@ MonoBehaviour:
   foxModel: {fileID: 0}
   startFoxNumber: 20
   foxFOV: 30
-  foxViewDistance: 3
-  foxSpeed: 1
+  foxViewDistance: 5
+  foxSpeed: 2
   rabbitModel: {fileID: 0}
   startRabbitNumber: 20
   rabbitFOV: 60
-  rabbitViewDistance: 5
-  rabbitSpeed: 2
+  rabbitViewDistance: 8
+  rabbitSpeed: 4
   bushModel: {fileID: 0}
   startBushNumber: 20
-  bushMaxSize: 1.2
+  bushMaxSize: 1.25
   timeBetweenBushSpawn: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
