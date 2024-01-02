@@ -66,12 +66,7 @@ public class RabbitScript : MonoBehaviour
     GameObject FindNextTarget(string searchTag) {
         GameObject finalTarget = null;
         float closestFinalTarget = float.MaxValue;
-
-        // When to hungry to mate
-        if (searchTag == tag && hunger < (maxHunger * matingHungerThreshold)) {
-            return finalTarget;
-        }
-
+        
         // Find target in the right range
         GameObject[] targets = GameObject.FindGameObjectsWithTag(searchTag);
         foreach (GameObject target in targets) {
@@ -178,10 +173,10 @@ public class RabbitScript : MonoBehaviour
             yield return new WaitForSeconds(1);
 
             // TODO: add new baby rabbit
-        }
+        
         
         // If collides with prey
-        if (other.gameObject.tag == preyType) {
+        } else if (other.gameObject.tag == preyType) {
             hunger += (int)(other.gameObject.transform.localScale.x * 1000);
             Destroy(other.gameObject);
         }
