@@ -8,7 +8,7 @@ public class RabbitScript : MonoBehaviour
     public float FOV;
     public float viewDistance;
     public float speed;
-    private float maxHunger = 3000;
+    private float maxHunger = 1500;
     private float hunger;
     
     // Hunting / Mating
@@ -48,7 +48,6 @@ public class RabbitScript : MonoBehaviour
         huntedPrey = FindNextTarget(preyType);
 
         // If in sight, set a mate
-        mate = null;
         mate = FindNextTarget(tag);
 
         // Move towards prey or randomly
@@ -67,6 +66,11 @@ public class RabbitScript : MonoBehaviour
     GameObject FindNextTarget(string searchTag) {
         GameObject finalTarget = null;
         float closestFinalTarget = float.MaxValue;
+
+        // When to hungry to mate
+        if (searchTag == tag && hunger < (maxHunger * matingHungerThreshold)) {
+            return finalTarget;
+        }
 
         // Find target in the right range
         GameObject[] targets = GameObject.FindGameObjectsWithTag(searchTag);

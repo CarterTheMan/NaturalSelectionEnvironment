@@ -67,6 +67,11 @@ public class FoxScript : MonoBehaviour
         GameObject finalTarget = null;
         float closestFinalTarget = float.MaxValue;
 
+        // When to hungry to mate
+        if (searchTag == tag && hunger < (maxHunger * matingHungerThreshold)) {
+            return finalTarget;
+        }
+
         // Find target in the right range
         GameObject[] targets = GameObject.FindGameObjectsWithTag(searchTag);
         foreach (GameObject target in targets) {
