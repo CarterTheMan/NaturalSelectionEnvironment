@@ -2,24 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Detect_Object : MonoBehaviour
+public class FoxScript : MonoBehaviour
 {
     // User decide
     public float FOV;
     public float ViewDistance;
     public float Speed;
-    public string PreyType;
+    private string PreyType;
     private GameObject huntedPrey;
     private int moveTime;
     private int moveCounter;
     private Vector3 turnRate;
     private bool walk;
     private int frameRate;
+    private Color huntColor;
+    private Color passiveColor;
 
     // Start is called before the first frame update
     void Start()
     {
-        GetComponent<Renderer>().material.color = Color.red;
+        huntColor = Color.yellow;
+        passiveColor = Color.red;
+        PreyType = "Rabbit";
+
+        GetComponent<Renderer>().material.color = passiveColor;
         
         frameRate = GameObject.FindGameObjectWithTag("Plane").GetComponent<PlaneScript>().frameRate;
         huntedPrey = null;
@@ -29,13 +35,14 @@ public class Detect_Object : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Set the prey
+        // If in sight, set the prey
         FindClosestPrey();
 
         // Move towards prey or randomly
         move();
     }   
 
+    // Find the closest prey and if in sight, set them as the prey
     void FindClosestPrey() {
         GameObject closest = null;
         float closestDistance = float.MaxValue;
@@ -71,21 +78,23 @@ public class Detect_Object : MonoBehaviour
         }
     }
 
+    // Move towards prey or look around
     void move() {
         // How fast to move forward
         var step = Speed * Time.deltaTime;
 
         // Hunt prey
         if (huntedPrey != null) {
-            GetComponent<Renderer>().material.color = Color.green;
+            GetComponent<Renderer>().material.color = huntColor;
 
             // Move towards target
-            transform.LookAt(huntedPrey.transform);
-            transform.position = Vector3.MoveTowards(transform.position, huntedPrey.transform.position, step);
+            Vector3 targetVector = new Vector3(huntedPrey.transform.position.x, 0.5f, huntedPrey.transform.position.z);
+            transform.LookAt(targetVector);
+            transform.position = Vector3.MoveTowards(transform.position, targetVector, step);
 
         // Not hunting prey
         } else {
-            GetComponent<Renderer>().material.color = Color.red;
+            GetComponent<Renderer>().material.color = passiveColor;
 
             // Once time expires, reset
             if (moveCounter >= moveTime) {
@@ -113,9 +122,10 @@ public class Detect_Object : MonoBehaviour
         }
     }
 
-    void OnCollisionEnter(Collision other) {
-        if (other.gameObject.tag == PreyType) {
-            Destroy(other.gameObject);
+    // When collide with prey, delete the prey
+    void OnCollisionEnter(Collision prey) {
+        if (prey.gameObject.tag == PreyType) {
+            Destroy(prey.gameObject);
         }
     }
 }

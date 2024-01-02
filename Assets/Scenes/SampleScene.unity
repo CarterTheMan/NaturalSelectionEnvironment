@@ -142,7 +142,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &144541362
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -276,7 +276,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &397708771
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -292,7 +292,6 @@ MonoBehaviour:
   FOV: 30
   ViewDistance: 5
   Speed: 0
-  PreyType: Rabbit
 --- !u!65 &397708772
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -713,11 +712,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   frameRate: 60
   startFoxNumber: 20
-  FoxFOV: 40
-  FoxViewDistance: 3
-  FoxSpeed: 1
-  FoxPreyType: Rabbit
+  foxFOV: 30
+  foxViewDistance: 3
+  foxSpeed: 1
   startRabbitNumber: 20
+  rabbitFOV: 60
+  rabbitViewDistance: 6
+  rabbitSpeed: 1.5
+  startBushNumber: 20
+  bushMaxSize: 1.5
+  timeBetweenBushSpawn: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
