@@ -15,7 +15,7 @@ public class RabbitScript : MonoBehaviour
     private bool mature = false;
     private float size = 0.25f;
     private float sizePerSecond;
-    private float timeToMature = 20;
+    private float timeToMature = 10;
     
     // Hunting / Mating
     private const string preyType = "Bush";
