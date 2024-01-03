@@ -8,7 +8,7 @@ public class FoxScript : MonoBehaviour
     public float FOV;
     public float viewDistance;
     public float speed;
-    private float maxHunger = 1500;
+    private float maxHunger = 30;     // in seconds based on size, should correlate with size
     private float hunger;
 
     // Hunting / Mating
@@ -30,9 +30,9 @@ public class FoxScript : MonoBehaviour
     private int frameRate;
 
     // Coloring
-    private Color mateColor = Color.black;
-    private Color huntColor = Color.yellow;
-    private Color passiveColor = Color.red;
+    private Color mateColor = Color.red;        // black
+    private Color huntColor = Color.red;        // yellow
+    private Color passiveColor = Color.red;     // red
 
     // Start is called before the first frame update
     void Start()
@@ -70,7 +70,8 @@ public class FoxScript : MonoBehaviour
 
     // Cost hunger, die if starve
     void Hunger() {
-        hunger -= speed;
+        // hunger decreases at speed over size per second
+        hunger -= (speed / transform.localScale.x) * (1 / frameRate);
         if (hunger < 0) {
             Destroy(gameObject);
         }
@@ -183,7 +184,12 @@ public class FoxScript : MonoBehaviour
             int minTime = 3;
             int maxTime = 5;
             moveTime = Random.Range(minTime * frameRate, maxTime * frameRate);
-            turnRate = new Vector3(0, Random.Range(-360.0f / maxTime, 360.0f / maxTime), 0);
+            float turningSpeed = Random.Range(40f / maxTime, 360f/maxTime);
+            if (Random.Range(0f, 1f) > 0.5) {
+                turnRate = new Vector3(0, turningSpeed, 0);
+            } else {
+                turnRate = new Vector3(0, -turningSpeed, 0);
+            }
         }
     }
 
@@ -206,7 +212,10 @@ public class FoxScript : MonoBehaviour
 
         // If collides with prey
         } else if (other.gameObject.tag == preyType) {
-            hunger += (int)(other.gameObject.transform.localScale.x * 1000);
+            hunger += (int)(other.gameObject.transform.localScale.x * maxHunger);
+            if (hunger > maxHunger) {
+                hunger = maxHunger;
+            }
             Destroy(other.gameObject);
         }
     }

@@ -713,16 +713,16 @@ MonoBehaviour:
   frameRate: 60
   foxModel: {fileID: 0}
   startFoxNumber: 20
-  foxFOV: 30
-  foxViewDistance: 5
-  foxSpeed: 2
+  foxFOV: 80
+  foxViewDistance: 10
+  foxSpeed: 3
   rabbitModel: {fileID: 0}
   startRabbitNumber: 20
-  rabbitFOV: 60
-  rabbitViewDistance: 8
+  rabbitFOV: 150
+  rabbitViewDistance: 15
   rabbitSpeed: 4
   bushModel: {fileID: 0}
-  startBushNumber: 20
+  startBushNumber: 40
   bushMaxSize: 1.25
   timeBetweenBushSpawn: 1
 --- !u!1660057539 &9223372036854775807
