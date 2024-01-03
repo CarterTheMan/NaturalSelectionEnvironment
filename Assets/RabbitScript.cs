@@ -8,8 +8,14 @@ public class RabbitScript : MonoBehaviour
     public float FOV;
     public float viewDistance;
     public float speed;
-    private float maxHunger = 30;    // in seconds based on size, should correlate with size
+    private float maxHunger = 30;    // in speed per second
     private float hunger;
+
+    // Growing
+    private bool mature = false;
+    private float size = 0.25f;
+    private float sizePerSecond;
+    private float timeToMature = 20;
     
     // Hunting / Mating
     private const string preyType = "Bush";
@@ -31,7 +37,7 @@ public class RabbitScript : MonoBehaviour
 
     // Coloring
     private Color mateColor = Color.blue;       // cyan
-    private Color huntColor = Color.blue;    // magenta
+    private Color huntColor = Color.blue;       // magenta
     private Color passiveColor = Color.blue;    // blue
 
     // Start is called before the first frame update
@@ -39,6 +45,7 @@ public class RabbitScript : MonoBehaviour
     {
         hunger = maxHunger;
         frameRate = GameObject.FindGameObjectWithTag("Plane").GetComponent<PlaneScript>().frameRate;
+        sizePerSecond = (1 - size) / timeToMature / frameRate;
 
         GetComponent<Renderer>().material.color = passiveColor;
     }
@@ -47,14 +54,21 @@ public class RabbitScript : MonoBehaviour
     void Update()
     {
         if (!waitBool) {
+            // If not mature, grow
+            if (!mature) {
+                Grow();
+            }
+
             // Handle hunger
             Hunger();
             
-            // If in sight, set the prey
-            huntedPrey = FindNextTarget(preyType);
+            // If in sight, look for prey
+            huntedPrey = See(preyType);
 
-            // If in sight, set a mate
-            mate = FindNextTarget(tag);
+            // If in sight and mature, look for a mate
+            if (mature) {
+                mate = See(tag);
+            }
 
             // Move towards mate then prey then randomly
             Move();
@@ -65,19 +79,28 @@ public class RabbitScript : MonoBehaviour
                 waitBool = false;
             }
         }
-    }   
+    }
+
+    // Grow and increase in size   
+    void Grow() {
+        size += sizePerSecond;
+        transform.localScale = new Vector3(size, size, size);
+        if (size >= 1) {
+            mature = true;
+        }
+    }
 
     // Cost hunger, die if starve
     void Hunger() {
-        // hunger decreases at speed over size per second
-        hunger -= (speed / transform.localScale.x) * (1 / frameRate);
+        // hunger decreases at speed per second
+        hunger -= speed / frameRate;
         if (hunger < 0) {
             Destroy(gameObject);
         }
     }
 
     // Find the closest target and if in sight, set them as the target
-    GameObject FindNextTarget(string searchTag) {
+    GameObject See(string searchTag) {
         GameObject finalTarget = null;
         float closestFinalTarget = float.MaxValue;
 
@@ -134,15 +157,15 @@ public class RabbitScript : MonoBehaviour
 
     // Move towards prey or look around
     void Move() {
-        // How fast to move forward
-        var step = speed * Time.deltaTime;
+        // How fast to move forward, scales with size
+        var step = speed * size * Time.deltaTime;
 
         // Go to mate, else hunt prey, else passive move
         if (mate != null) {
             GetComponent<Renderer>().material.color = mateColor;
 
             // Move towards target
-            Vector3 targetVector = new Vector3(mate.transform.position.x, 0.5f, mate.transform.position.z);
+            Vector3 targetVector = new Vector3(mate.transform.position.x, transform.position.y, mate.transform.position.z);
             transform.LookAt(targetVector);
             transform.position = Vector3.MoveTowards(transform.position, targetVector, step);
         
@@ -150,7 +173,7 @@ public class RabbitScript : MonoBehaviour
             GetComponent<Renderer>().material.color = huntColor;
 
             // Move towards prey
-            Vector3 targetVector = new Vector3(huntedPrey.transform.position.x, 0.5f, huntedPrey.transform.position.z);
+            Vector3 targetVector = new Vector3(huntedPrey.transform.position.x, transform.position.y, huntedPrey.transform.position.z);
             transform.LookAt(targetVector);
             transform.position = Vector3.MoveTowards(transform.position, targetVector, step);
         
