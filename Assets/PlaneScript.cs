@@ -18,7 +18,7 @@ public class PlaneScript : MonoBehaviour
     public GameObject bushModel;
     public int startBushNumber;
     public float bushMaxSize;
-    public int timeBetweenBushSpawn;    // Seconds
+    public float timeBetweenBushSpawn;    // Seconds
     private int bushSpawnCounter;
     private float xScale;
     private float zScale;
@@ -35,17 +35,17 @@ public class PlaneScript : MonoBehaviour
 
         // Spawn foxes
         for (int i = 0; i < startFoxNumber; i++) {
-            spawnFox(xScale, zScale);
+            spawnFox(Random.Range(-xScale, xScale), Random.Range(-zScale, zScale), foxFOV, foxViewDistance, foxSpeed);
         }
 
         // Spawn rabbits
         for (int i = 0; i < startRabbitNumber; i++) {
-            spawnRabbit(xScale, zScale);
+            spawnRabbit(Random.Range(-xScale, xScale), Random.Range(-zScale, zScale), rabbitFOV, rabbitViewDistance, rabbitSpeed);
         }
 
         // Spawn bushed
         for (int i = 0; i < startBushNumber; i++) {
-            spawnBush(xScale, zScale);
+            spawnBush(Random.Range(-xScale, xScale), Random.Range(-zScale, zScale), bushMaxSize);  
         }
     }
 
@@ -55,11 +55,11 @@ public class PlaneScript : MonoBehaviour
         bushSpawnCounter++;
         if (bushSpawnCounter > (timeBetweenBushSpawn * frameRate)) {
             bushSpawnCounter = 0;
-            spawnBush(xScale, zScale);
+            spawnBush(Random.Range(-xScale, xScale), Random.Range(-zScale, zScale), bushMaxSize);
         }
     }
 
-    void spawnFox(float xScale, float zScale) {
+    public void spawnFox(float xLoc, float zLoc, float foxF, float foxV, float foxS) {
         // Create a new fox
         GameObject fox = GameObject.CreatePrimitive(PrimitiveType.Cube);
 
@@ -68,18 +68,18 @@ public class PlaneScript : MonoBehaviour
         fox.layer = LayerMask.NameToLayer("Fox");
 
         // Start the fox at a random position
-        fox.transform.position = new Vector3(Random.Range(-xScale - 1, xScale - 1), 0.5f, Random.Range(-zScale - 1, zScale - 1));
+        fox.transform.position = new Vector3(xLoc, 0.5f, zLoc);
 
         // Add the script with variables
-        fox.AddComponent<FoxScript>().FOV = foxFOV;
-        fox.GetComponent<FoxScript>().viewDistance = foxViewDistance;
-        fox.GetComponent<FoxScript>().speed = foxSpeed;
+        fox.AddComponent<FoxScript>().FOV = foxF;
+        fox.GetComponent<FoxScript>().viewDistance = foxV;
+        fox.GetComponent<FoxScript>().speed = foxS;
 
         // Add the rigidbody so that it can collide
         fox.AddComponent<Rigidbody>();
     }
 
-    void spawnRabbit(float xScale, float zScale) {
+    public void spawnRabbit(float xLoc, float zLoc, float rabbitF, float rabbitV, float rabbitS) {
         // Create a new rabbit
         GameObject rabbit = GameObject.CreatePrimitive(PrimitiveType.Cube);
 
@@ -88,18 +88,18 @@ public class PlaneScript : MonoBehaviour
         rabbit.layer = LayerMask.NameToLayer("Rabbit");
 
         // Add the script with variables
-        rabbit.AddComponent<RabbitScript>().FOV = rabbitFOV;
-        rabbit.GetComponent<RabbitScript>().viewDistance = rabbitViewDistance;
-        rabbit.GetComponent<RabbitScript>().speed = rabbitSpeed;
+        rabbit.AddComponent<RabbitScript>().FOV = rabbitF;
+        rabbit.GetComponent<RabbitScript>().viewDistance = rabbitV;
+        rabbit.GetComponent<RabbitScript>().speed = rabbitS;
 
         // Start the rabbit at a random position
-        rabbit.transform.position = new Vector3(Random.Range(-xScale - 1, xScale - 1), 0.5f, Random.Range(-zScale - 1, zScale - 1));
+        rabbit.transform.position = new Vector3(xLoc, 0.5f, zLoc);
         
         // Add the rigidbody so that it can collide
         rabbit.AddComponent<Rigidbody>();
     }
 
-    void spawnBush(float xScale, float zScale) {
+    public void spawnBush(float xLoc, float zLoc, float bushM) {
         // Create a new bush
         GameObject bush = GameObject.CreatePrimitive(PrimitiveType.Cube);
 
@@ -108,10 +108,10 @@ public class PlaneScript : MonoBehaviour
         bush.layer = LayerMask.NameToLayer("Bush");
 
         // Add the script
-        bush.AddComponent<BushScript>().maxSize = bushMaxSize;
+        bush.AddComponent<BushScript>().maxSize = bushM;
 
         // Start the rabbit at a random position and small size
-        bush.transform.position = new Vector3(Random.Range(-xScale - 1, xScale - 1), 0.5f, Random.Range(-zScale - 1, zScale - 1));
+        bush.transform.position = new Vector3(xLoc, 0.5f, zLoc);
         bush.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
 
         // Add the rigidbody so that it can collide

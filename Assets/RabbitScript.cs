@@ -8,7 +8,7 @@ public class RabbitScript : MonoBehaviour
     public float FOV;
     public float viewDistance;
     public float speed;
-    private float maxHunger = 30;    // in speed per second
+    private float maxHunger = 60;    // in speed per second
     private float hunger;
 
     // Growing
@@ -221,13 +221,22 @@ public class RabbitScript : MonoBehaviour
         // If collides with mate
         if (other.gameObject.tag == tag && (mate == other.gameObject || other.gameObject.GetComponent<RabbitScript>().mate == this.gameObject)) {
             // Subtract hunger and look at each other
-            hunger -= (int)(maxHunger * matingHungerThreshold);
+            hunger -= (int)(maxHunger * (matingHungerThreshold / 2));
             Vector3 targetVector = new Vector3(other.transform.position.x, 0.5f, other.transform.position.z);
             transform.LookAt(targetVector);
 
-            // Wait and then make baby rabbit
+            // Wait
             startWait(2);
-            // TODO: add new baby rabbit and decide if the wait it needed
+
+            // If lower X position, be the one to spawn the baby
+            if (transform.position.x <= other.gameObject.transform.position.x) {
+                float averageSpeed = (speed + other.gameObject.GetComponent<RabbitScript>().speed) / 2;
+                if (Random.Range(0f, 1f) > 0.5) {
+                    averageSpeed += 1;
+                }
+
+                GameObject.FindGameObjectWithTag("Plane").GetComponent<PlaneScript>().spawnRabbit(transform.position.x + 0.75f, transform.position.z + 0.75f, FOV, viewDistance, averageSpeed);
+            }
 
             // Look away from each other and continue moving
             transform.RotateAround(transform.position, transform.up, 180f);

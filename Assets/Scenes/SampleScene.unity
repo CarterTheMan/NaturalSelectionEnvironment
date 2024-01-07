@@ -712,19 +712,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   frameRate: 60
   foxModel: {fileID: 0}
-  startFoxNumber: 20
+  startFoxNumber: 10
   foxFOV: 80
   foxViewDistance: 10
   foxSpeed: 2
   rabbitModel: {fileID: 0}
-  startRabbitNumber: 20
+  startRabbitNumber: 40
   rabbitFOV: 150
   rabbitViewDistance: 15
   rabbitSpeed: 3
   bushModel: {fileID: 0}
-  startBushNumber: 40
+  startBushNumber: 80
   bushMaxSize: 1.25
-  timeBetweenBushSpawn: 1
+  timeBetweenBushSpawn: 0.5
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
