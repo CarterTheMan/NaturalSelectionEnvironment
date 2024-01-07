@@ -138,7 +138,6 @@ public abstract class AnimalScript : MonoBehaviour
                     // Mate
                     case var tag when tag == tag:
                         bool canSelfMate = hunger > (maxHunger * matingHungerThreshold);
-                        // System.Type type = GetType();
                         bool canTargetMate = target.GetComponent<AnimalScript>().hunger > (target.GetComponent<AnimalScript>().maxHunger * matingHungerThreshold);
                         if (canSelfMate && canTargetMate && closer) {
                             finalTarget = target;
@@ -220,7 +219,6 @@ public abstract class AnimalScript : MonoBehaviour
     // When collide with prey, delete the prey
     protected void OnCollisionEnter(Collision other) {
         // If collides with mate
-        // System.Type type = GetType();
         if (other.gameObject.tag == tag && (mate == other.gameObject || other.gameObject.GetComponent<AnimalScript>().mate == this.gameObject)) {
             // Subtract hunger and look at each other
             hunger -= (int)(maxHunger * (matingHungerThreshold / 2));
@@ -232,7 +230,6 @@ public abstract class AnimalScript : MonoBehaviour
 
             // If lower X position, be the one to spawn the baby
             if (transform.position.x <= other.gameObject.transform.position.x) {
-                // float averageSpeed = (speed + getOpponentSpeed(other.gameObject).speed) / 2;
                 float averageSpeed = (speed + other.gameObject.GetComponent<AnimalScript>().speed) / 2;
                 if (Random.Range(0f, 1f) > 0.5) {
                     averageSpeed += 1;
@@ -261,9 +258,4 @@ public abstract class AnimalScript : MonoBehaviour
         waitTotalTime = time * frameRate;
     }
 
-    /////////////// Functions all child classes will have to implement ///////////////
-    
-    // This will get the specific gameObject we are looking for 
-    // protected abstract float getOpponentSpeed(gameObject opponent);
-    // Should return searchedObject.getComponent<RabbitScript>();
 }
