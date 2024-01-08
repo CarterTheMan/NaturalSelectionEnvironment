@@ -235,7 +235,12 @@ public abstract class AnimalScript : MonoBehaviour
                     averageSpeed += 1;
                 }
 
-                GameObject.FindGameObjectWithTag("Plane").GetComponent<PlaneScript>().spawnRabbit(transform.position.x + 0.75f, transform.position.z + 0.75f, FOV, viewDistance, averageSpeed);
+                // Spawn in children
+                if (tag == "Fox") {
+                    GameObject.FindGameObjectWithTag("Plane").GetComponent<PlaneScript>().spawnFox(transform.position.x + 0.75f, transform.position.z + 0.75f, FOV, viewDistance, averageSpeed);
+                } else if (tag == "Rabbit") {
+                    GameObject.FindGameObjectWithTag("Plane").GetComponent<PlaneScript>().spawnRabbit(transform.position.x + 0.75f, transform.position.z + 0.75f, FOV, viewDistance, averageSpeed);
+                }
             }
 
             // Look away from each other and continue moving

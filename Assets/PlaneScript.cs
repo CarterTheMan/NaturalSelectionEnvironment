@@ -1,27 +1,39 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class PlaneScript : MonoBehaviour
 {
+    // General stats
     public int frameRate;
+    private float xScale;
+    private float zScale;
+
+    // Fox stats
     public GameObject foxModel;
     public int startFoxNumber;
     public float foxFOV;
     public float foxViewDistance;
     public float foxSpeed;
+
+    // Rabbit stats
     public GameObject rabbitModel;
     public int startRabbitNumber;
     public float rabbitFOV;
     public float rabbitViewDistance;
     public float rabbitSpeed;
+    
+    // Bush stats
     public GameObject bushModel;
     public int startBushNumber;
     public float bushMaxSize;
     public float timeBetweenBushSpawn;    // Seconds
     private int bushSpawnCounter;
-    private float xScale;
-    private float zScale;
+
+    // Texts
+    public TextMeshProUGUI rabbitStatsText;
+    public TextMeshProUGUI foxStatsText;
 
     // Start is called before the first frame update
     void Start()
@@ -47,16 +59,25 @@ public class PlaneScript : MonoBehaviour
         for (int i = 0; i < startBushNumber; i++) {
             spawnBush(Random.Range(-xScale, xScale), Random.Range(-zScale, zScale), bushMaxSize);  
         }
+
+        // Set the texts
+        rabbitStatsText.color = Color.blue;
+        foxStatsText.color = Color.red;
     }
 
     // Update is called once per frame
     void Update()
     {
+        // Spawn in new bushes
         bushSpawnCounter++;
         if (bushSpawnCounter > (timeBetweenBushSpawn * frameRate)) {
             bushSpawnCounter = 0;
             spawnBush(Random.Range(-xScale, xScale), Random.Range(-zScale, zScale), bushMaxSize);
         }
+
+        // Update animal stats
+        updateAnimalStats(foxStatsText, "Fox");
+        updateAnimalStats(rabbitStatsText, "Rabbit");
     }
 
     public void spawnFox(float xLoc, float zLoc, float foxF, float foxV, float foxS) {
@@ -117,4 +138,29 @@ public class PlaneScript : MonoBehaviour
         // Add the rigidbody so that it can collide
         bush.AddComponent<Rigidbody>();
     }
+
+    public void updateAnimalStats(TextMeshProUGUI textBox, string animalTag) {
+        // Variables we will need
+        float textFOV = 0;
+        float textVD = 0;
+        float textSpeed = 0;
+        
+        // Get all animals and add up stats
+        GameObject[] animals = GameObject.FindGameObjectsWithTag(animalTag);
+        foreach (GameObject animal in animals) {
+            AnimalScript script = animal.GetComponent<AnimalScript>();
+            textFOV += script.FOV;
+            textVD += script.viewDistance;
+            textSpeed += script.speed;
+        }
+
+        // Find the stat averages
+        textFOV = textFOV / animals.Length;
+        textVD = textVD / animals.Length;
+        textSpeed = textSpeed / animals.Length;
+        
+        // Update the text with the stats
+        textBox.text = animalTag + " Averages \nView Distance: " + textVD.ToString("F2") + "\nFOV: " + textFOV.ToString("F2") + "\nSpeed: " + textSpeed.ToString("F2");
+    }
+
 }
