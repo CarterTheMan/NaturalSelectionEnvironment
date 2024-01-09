@@ -14,11 +14,17 @@ public class FoxScript : AnimalScript
         passiveColor = Color.red;    // red
         GetComponent<Renderer>().material.color = passiveColor;
 
-        // Set the variables that need to be set
+        // Set the variables that need to be set unique to animal
+        maxHunger = 150;
         hunger = maxHunger;
+        mateWaitingPeriod = false;
+        preyTag = "Rabbit";
+        predatorTag = null;
+
+        // General variables to be set 
         frameRate = GameObject.FindGameObjectWithTag("Plane").GetComponent<PlaneScript>().frameRate;
         sizePerSecond = (1 - size) / timeToMature / frameRate;
-        preyTag = "Rabbit";
+        timeToFlee = timeToFlee * frameRate;
     }
 
 }

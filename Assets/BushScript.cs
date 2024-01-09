@@ -17,7 +17,7 @@ public class BushScript : MonoBehaviour
     void Update()
     {
         // Increase the size of the bush
-        Vector3 scaleChange = new Vector3(0.001f, 0.001f, 0.001f);
+        Vector3 scaleChange = new Vector3(0.003f, 0.003f, 0.003f);
         if (transform.localScale.x <= maxSize) {
             transform.localScale += scaleChange;
         }

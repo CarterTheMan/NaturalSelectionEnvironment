@@ -8,6 +8,7 @@ TagManager:
   - Rabbit
   - Bush
   - Plane
+  - Border
   layers:
   - Default
   - TransparentFX

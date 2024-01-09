@@ -24,6 +24,7 @@ public abstract class AnimalScript : MonoBehaviour
     // Mating
     protected GameObject mate = null;
     protected float matingHungerThreshold = 0.5f;
+    protected bool mateWaitingPeriod = false;
 
     // Fleeing from predator
     protected string predatorTag = null;
@@ -268,7 +269,9 @@ public abstract class AnimalScript : MonoBehaviour
             transform.LookAt(targetVector);
 
             // Wait
-            startWait(2);
+            if (mateWaitingPeriod == true) {
+                startWait(2);
+            }
 
             // If lower X position, be the one to spawn the baby
             if (transform.position.x <= other.gameObject.transform.position.x) {
@@ -296,6 +299,19 @@ public abstract class AnimalScript : MonoBehaviour
                 hunger = maxHunger;
             }
             Destroy(other.gameObject);
+        
+        // If collides with wall
+        } else if (other.gameObject.tag == "Border") {
+            // Turn around and look in random location and move forward
+            transform.RotateAround(transform.position, transform.up, 180f);
+            transform.RotateAround(transform.position, transform.up, Random.Range(-90f, 90f));
+            transform.Translate(Vector3.forward * speed * size * Time.deltaTime);
+
+            // start walking
+            swapWalkAndTurn();
+            if (walk == false) {
+                swapWalkAndTurn();
+            }
         }
     }
 

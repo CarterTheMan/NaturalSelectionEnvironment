@@ -98,7 +98,7 @@ public class PlaneScript : MonoBehaviour
         GameObject plane = GameObject.CreatePrimitive(PrimitiveType.Plane);
         
         // Add it's tag
-        plane.tag = "Plane";
+        plane.tag = "Border";
 
         // Move the planes position
         plane.transform.position = new Vector3(xLoc, 5f, zLoc);
