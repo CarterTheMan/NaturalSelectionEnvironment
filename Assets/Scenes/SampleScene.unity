@@ -753,7 +753,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 7, y: 1, z: 7}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -772,19 +772,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   frameRate: 60
   foxModel: {fileID: 0}
-  startFoxNumber: 1
+  startFoxNumber: 6
   foxFOV: 80
   foxViewDistance: 15
-  foxSpeed: 1
+  foxSpeed: 4.5
   rabbitModel: {fileID: 0}
-  startRabbitNumber: 1
+  startRabbitNumber: 40
   rabbitFOV: 150
   rabbitViewDistance: 10
-  rabbitSpeed: 1
+  rabbitSpeed: 4
   bushModel: {fileID: 0}
-  startBushNumber: 0
-  bushMaxSize: 0.75
-  timeBetweenBushSpawn: 100
+  startBushNumber: 150
+  bushMaxSize: 1.1
+  timeBetweenBushSpawn: 0.25
   rabbitStatsText: {fileID: 91544030}
   foxStatsText: {fileID: 417835063}
 --- !u!1 &1820726542
