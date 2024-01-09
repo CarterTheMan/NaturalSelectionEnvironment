@@ -45,6 +45,9 @@ public class PlaneScript : MonoBehaviour
         xScale = (GetComponent<MeshRenderer>().bounds.size.x / 2) - 1;
         zScale = (GetComponent<MeshRenderer>().bounds.size.z / 2) - 1;
 
+        // Create the walls
+        createWalls(transform.localScale.x, transform.localScale.z);
+
         // Spawn foxes
         for (int i = 0; i < startFoxNumber; i++) {
             spawnFox(Random.Range(-xScale, xScale), Random.Range(-zScale, zScale), foxFOV, foxViewDistance, foxSpeed);
@@ -78,6 +81,36 @@ public class PlaneScript : MonoBehaviour
         // Update animal stats
         updateAnimalStats(foxStatsText, "Fox");
         updateAnimalStats(rabbitStatsText, "Rabbit");
+    }
+
+    public void createWalls(float xLoc, float zLoc) { 
+        float xTransformLoc = xLoc * 5;
+        float zTransformLoc = zLoc * 5;
+
+        createWall(-xTransformLoc, 0, 0, -90, 1, zLoc);
+        createWall(xTransformLoc, 0, 0, 90, 1, zLoc);
+        createWall(0, -zTransformLoc, 90, 0, xLoc, 1);
+        createWall(0, zTransformLoc, -90, 0, xLoc, 1);
+    }
+
+    public void createWall(float xLoc, float zLoc, float xRotation, float zRotation, float xScale, float zScale) {
+        // Create a new plane
+        GameObject plane = GameObject.CreatePrimitive(PrimitiveType.Plane);
+        
+        // Add it's tag
+        plane.tag = "Plane";
+
+        // Move the planes position
+        plane.transform.position = new Vector3(xLoc, 5f, zLoc);
+
+        // Move the planes rotation
+        plane.transform.rotation = Quaternion.Euler(new Vector3(xRotation, 0f, zRotation));
+
+        // Change the plans scale
+        plane.transform.localScale = new Vector3(xScale, 1f, zScale);
+
+        // Set the color of the walls
+        plane.GetComponent<Renderer>().material.color = Color.black;
     }
 
     public void spawnFox(float xLoc, float zLoc, float foxF, float foxV, float foxS) {
