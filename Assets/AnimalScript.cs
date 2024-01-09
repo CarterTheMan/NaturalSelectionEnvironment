@@ -17,11 +17,20 @@ public abstract class AnimalScript : MonoBehaviour
     protected float sizePerSecond;
     protected float timeToMature = 10;
     
-    // Hunting / Mating
+    // Hunting
     protected string preyTag;
     protected GameObject huntedPrey = null;
+
+    // Mating
     protected GameObject mate = null;
     protected float matingHungerThreshold = 0.5f;
+
+    // Fleeing from predator
+    protected string predatorTag = null;
+    protected GameObject predator = null;
+    protected float timeToFlee = 3;                 // In seconds
+    protected float timeToFleeCounter = 0;      
+    protected bool canFlee = true;                  // Keeps track if running from a predator
 
     // Waiting
     protected bool waitBool = false;
@@ -46,6 +55,7 @@ public abstract class AnimalScript : MonoBehaviour
         hunger = maxHunger;
         frameRate = GameObject.FindGameObjectWithTag("Plane").GetComponent<PlaneScript>().frameRate;
         sizePerSecond = (1 - size) / timeToMature / frameRate;
+        timeToFlee = timeToFlee * frameRate;
 
         GetComponent<Renderer>().material.color = passiveColor;
     }
@@ -61,6 +71,11 @@ public abstract class AnimalScript : MonoBehaviour
 
             // Handle hunger
             Hunger();
+
+            // If animal has predator, avoid predator
+            if (predatorTag != null && canFlee == true) {
+                FleePredator();
+            }
             
             // If in sight, look for prey
             huntedPrey = See(preyTag);
@@ -98,6 +113,23 @@ public abstract class AnimalScript : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    // Look out for predator 
+    protected void FleePredator() {
+        GameObject newPredator = See(predatorTag);
+        if (newPredator != null) {
+            // Update variables related to the predator
+            predator = newPredator;
+            timeToFleeCounter = 0;
+            canFlee = false;
+
+            // Look away from predator
+            Vector3 predatorVector = new Vector3(predator.transform.position.x, transform.position.y, predator.transform.position.z);
+            transform.LookAt(predatorVector);
+            transform.RotateAround(transform.position, transform.up, 180f);
+        }
+    }
+    
 
     // Find the closest target and if in sight, set them as the target
     protected GameObject See(string searchTag) {
@@ -160,8 +192,18 @@ public abstract class AnimalScript : MonoBehaviour
         // How fast to move forward, scales with size
         var step = speed * size * Time.deltaTime;
 
-        // Go to mate, else hunt prey, else passive move
-        if (mate != null) {
+        // flee predator, else go to mate, else hunt prey, else passive move
+        if (predator != null) {
+            // Flee for certain time
+            if (timeToFleeCounter < timeToFlee) {
+                timeToFleeCounter++;
+                transform.Translate(Vector3.forward * step);
+            } else {
+                predator = null;
+                canFlee = true;
+            }
+
+        } else if (mate != null) {
             GetComponent<Renderer>().material.color = mateColor;
 
             // Move towards target

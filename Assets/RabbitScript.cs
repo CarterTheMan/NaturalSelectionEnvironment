@@ -19,6 +19,8 @@ public class RabbitScript : AnimalScript
         frameRate = GameObject.FindGameObjectWithTag("Plane").GetComponent<PlaneScript>().frameRate;
         sizePerSecond = (1 - size) / timeToMature / frameRate;
         preyTag = "Bush";
+        predatorTag = "Fox";
+        timeToFlee = timeToFlee * frameRate;
     }
     
 }
