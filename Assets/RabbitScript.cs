@@ -17,7 +17,8 @@ public class RabbitScript : AnimalScript
         // Set the variables that need to be set unique to animal
         maxHunger = 100;
         hunger = maxHunger;
-        mateWaitingPeriod = true;
+        mateWaitingPeriod = false;
+        eatWaitingPeriod = true;
         preyTag = "Bush";
         predatorTag = "Fox";
 

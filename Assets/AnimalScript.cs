@@ -20,6 +20,7 @@ public abstract class AnimalScript : MonoBehaviour
     // Hunting
     protected string preyTag;
     protected GameObject huntedPrey = null;
+    protected bool eatWaitingPeriod = false;
 
     // Mating
     protected GameObject mate = null;
@@ -271,7 +272,7 @@ public abstract class AnimalScript : MonoBehaviour
             // Wait
             // NOTE: May want to remove the wait period to fix the issue with rabbits having so many babies
             if (mateWaitingPeriod == true) {
-                startWait(2);
+                startWait(2f);
             }
 
             // If lower X position, be the one to spawn the baby
@@ -295,10 +296,19 @@ public abstract class AnimalScript : MonoBehaviour
         
         // If collides with prey
         } else if (other.gameObject.tag == preyTag) {
+            // Increase hunger
             hunger += (int)(other.gameObject.transform.localScale.x * maxHunger);
             if (hunger > maxHunger) {
                 hunger = maxHunger;
             }
+
+            // Wait to eat
+            // NOTE: Find way to destroy prey after the 2 seconds
+            if (eatWaitingPeriod == true) {
+                startWait(0.5f);
+            }
+
+            // Actually eat the prey
             Destroy(other.gameObject);
         
         // If collides with wall
@@ -317,7 +327,7 @@ public abstract class AnimalScript : MonoBehaviour
     }
 
     // Time in seconds to wait
-    protected void startWait(int time) {
+    protected void startWait(float time) {
         waitBool = true;
         waitTotalTime = time * frameRate;
     }

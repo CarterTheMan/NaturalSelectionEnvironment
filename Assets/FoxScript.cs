@@ -18,6 +18,7 @@ public class FoxScript : AnimalScript
         maxHunger = 150;
         hunger = maxHunger;
         mateWaitingPeriod = false;
+        eatWaitingPeriod = true;
         preyTag = "Rabbit";
         predatorTag = null;
 
