@@ -270,7 +270,6 @@ public abstract class AnimalScript : MonoBehaviour
             transform.LookAt(targetVector);
 
             // Wait
-            // NOTE: May want to remove the wait period to fix the issue with rabbits having so many babies
             if (mateWaitingPeriod == true) {
                 startWait(2f);
             }

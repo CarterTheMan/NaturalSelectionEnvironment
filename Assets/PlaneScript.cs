@@ -9,24 +9,25 @@ public class PlaneScript : MonoBehaviour
     public int frameRate;
     private float xScale;
     private float zScale;
+    private float area;
 
     // Fox stats
     public GameObject foxModel;
-    public int startFoxNumber;
+    public float foxNumberPerTile;
     public float foxFOV;
     public float foxViewDistance;
     public float foxSpeed;
 
     // Rabbit stats
     public GameObject rabbitModel;
-    public int startRabbitNumber;
+    public float rabbitNumberPerTile;
     public float rabbitFOV;
     public float rabbitViewDistance;
     public float rabbitSpeed;
     
     // Bush stats
     public GameObject bushModel;
-    public int startBushNumber;
+    public float bushNumberPerTile;
     public float bushMaxSize;
     public float timeBetweenBushSpawn;    // Seconds
     private int bushSpawnCounter;
@@ -48,22 +49,28 @@ public class PlaneScript : MonoBehaviour
         // Create the walls
         createWalls(transform.localScale.x, transform.localScale.z);
 
+        // Find how many of the foxes, rabbits and bushes need to be spawned
+        area = transform.localScale.x * transform.localScale.z;
+        foxNumberPerTile = foxNumberPerTile * area;
+        rabbitNumberPerTile = rabbitNumberPerTile * area;
+        bushNumberPerTile = bushNumberPerTile * area;
+
         // Spawn foxes
-        for (int i = 0; i < startFoxNumber; i++) {
+        for (int i = 0; i < foxNumberPerTile; i++) {
             spawnFox(Random.Range(-xScale, xScale), Random.Range(-zScale, zScale), foxFOV, foxViewDistance, foxSpeed);
         }
 
         // Spawn rabbits
-        for (int i = 0; i < startRabbitNumber; i++) {
+        for (int i = 0; i < rabbitNumberPerTile; i++) {
             spawnRabbit(Random.Range(-xScale, xScale), Random.Range(-zScale, zScale), rabbitFOV, rabbitViewDistance, rabbitSpeed);
         }
 
         // Spawn bushed
-        for (int i = 0; i < startBushNumber; i++) {
+        for (int i = 0; i < bushNumberPerTile; i++) {
             spawnBush(Random.Range(-xScale, xScale), Random.Range(-zScale, zScale), bushMaxSize);  
         }
 
-        // Set the texts
+        // Set the texts color
         rabbitStatsText.color = Color.blue;
         foxStatsText.color = Color.red;
     }
