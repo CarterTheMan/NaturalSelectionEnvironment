@@ -772,15 +772,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   frameRate: 60
   foxModel: {fileID: 0}
-  startFoxNumber: 6
+  startFoxNumber: 3
   foxFOV: 80
   foxViewDistance: 15
-  foxSpeed: 4.5
+  foxSpeed: 4
   rabbitModel: {fileID: 0}
   startRabbitNumber: 40
   rabbitFOV: 150
   rabbitViewDistance: 10
-  rabbitSpeed: 4
+  rabbitSpeed: 5
   bushModel: {fileID: 0}
   startBushNumber: 150
   bushMaxSize: 1.1
